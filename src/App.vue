@@ -31,9 +31,9 @@ import BreedCard from './components/BreedCard.vue'
 import BreedSorting from './components/BreedSorting.vue'
 import axios from './middlware'
 
-interface Breed {
-  [key: string]: unknown;
-}
+// interface Breed {
+//   [key: string]: unknown;
+// }
 
 export default {
   name: 'app',
