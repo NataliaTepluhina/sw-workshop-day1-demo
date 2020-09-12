@@ -26,10 +26,14 @@
 </template>
 
 <script>
-import orderBy from 'lodash/orderBy'
+import * as lodash from 'lodash'
 import BreedCard from './components/BreedCard.vue'
 import BreedSorting from './components/BreedSorting.vue'
 import axios from './middlware'
+
+interface Breed {
+  [key: string]: unknown;
+}
 
 export default {
   name: 'app',
@@ -61,7 +65,7 @@ export default {
       const selectedOption = this.resultSorting.options[
         this.resultSorting.selectedOptionIndex
       ]
-      return orderBy(this.breedSearch.results, ...selectedOption)
+      return lodash.orderBy(this.breedSearch.results, ...selectedOption)
     }
   },
   methods: {
