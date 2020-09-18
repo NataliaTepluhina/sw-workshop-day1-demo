@@ -29,7 +29,7 @@
 import orderBy from 'lodash/orderBy'
 import BreedCard from './components/BreedCard.vue'
 import BreedSorting from './components/BreedSorting.vue'
-import axios from './middlware'
+import { useSearch } from './composables/useSearch'
 
 export default {
   name: 'app',
@@ -37,12 +37,13 @@ export default {
     BreedCard,
     BreedSorting
   },
+  setup() {
+    const { breedSearch, runBreedSearch } = useSearch()
+
+    return { breedSearch, runBreedSearch }
+  },
   data() {
     return {
-      breedSearch: {
-        query: '',
-        results: []
-      },
       resultSorting: {
         options: [
           ['energy_level', 'desc'],
@@ -54,28 +55,11 @@ export default {
     }
   },
   computed: {
-    breedEndpoint() {
-      return this.breedSearch.query ? '/breeds/search' : '/breeds'
-    },
     sortedResults() {
       const selectedOption = this.resultSorting.options[
         this.resultSorting.selectedOptionIndex
       ]
       return orderBy(this.breedSearch.results, ...selectedOption)
-    }
-  },
-  methods: {
-    runBreedSearch() {
-      axios
-        .get(this.breedEndpoint, {
-          params: {
-            limit: 8,
-            q: this.breedSearch.query
-          }
-        })
-        .then(res => {
-          this.breedSearch.results = res.data.filter(breed => breed.description)
-        })
     }
   },
   mounted() {
